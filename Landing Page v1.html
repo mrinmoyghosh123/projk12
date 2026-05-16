@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ProjK12 — Coming Soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg: oklch(0.965 0.012 80);
+    --bg-2: oklch(0.93 0.018 78);
+    --ink: oklch(0.22 0.025 250);
+    --ink-soft: oklch(0.42 0.02 250);
+    --ink-mute: oklch(0.58 0.018 250);
+    --line: oklch(0.86 0.02 80);
+    --terracotta: oklch(0.64 0.14 42);
+    --indigo: oklch(0.46 0.13 252);
+    --paper: oklch(0.985 0.008 80);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Geist","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:17px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:32px 40px 0}
+  @media (max-width:720px){ .wrap{padding:24px 22px 0} }
+
+  /* Top construction strip */
+  .strip{
+    border:1px solid var(--line);
+    background:
+      repeating-linear-gradient(135deg,
+        oklch(0.94 0.02 80) 0 14px,
+        oklch(0.92 0.025 78) 14px 28px);
+    border-radius:14px;
+    padding:10px 16px;
+    display:flex;align-items:center;gap:14px;
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:12px;letter-spacing:.04em;
+    color:var(--ink-soft);
+  }
+  .strip .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--terracotta);
+    box-shadow:0 0 0 3px oklch(0.64 0.14 42 / .18);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{50%{box-shadow:0 0 0 7px oklch(0.64 0.14 42 / 0)}}
+  .strip .sep{flex:1}
+  .strip .right{color:var(--ink-mute)}
+
+  /* Nav row */
+  nav.top{
+    display:flex;align-items:center;justify-content:space-between;
+    margin:22px 0 64px;
+  }
+  .mark{
+    display:flex;align-items:baseline;gap:10px;
+  }
+  .mark .logo{
+    width:32px;height:32px;border-radius:9px;
+    background:var(--ink);
+    display:inline-grid;place-items:center;
+    color:var(--paper);
+    font-family:"Newsreader",serif;font-weight:500;font-size:20px;font-style:italic;
+    transform:translateY(6px);
+  }
+  .mark .name{
+    font-family:"Newsreader",serif;
+    font-weight:500;font-size:22px;letter-spacing:-.01em;
+  }
+  .mark .name em{color:var(--terracotta);font-style:italic;font-weight:400}
+  .nav-right{
+    font-family:"JetBrains Mono",monospace;
+    font-size:12px;color:var(--ink-mute);
+    letter-spacing:.04em;
+  }
+
+  /* Hero */
+  .hero{
+    display:grid;grid-template-columns: 1.25fr 1fr;
+    gap:64px;align-items:end;
+    padding-bottom:84px;
+    border-bottom:1px solid var(--line);
+  }
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr;gap:40px;padding-bottom:56px}
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);
+    padding:6px 12px;border:1px solid var(--line);border-radius:999px;
+    background:var(--paper);
+  }
+  .eyebrow .bar{width:10px;height:2px;background:var(--terracotta);display:inline-block}
+  h1.title{
+    font-family:"Newsreader",serif;
+    font-weight:400;font-size:clamp(48px,7.2vw,104px);
+    line-height:.98;letter-spacing:-.025em;
+    margin:24px 0 22px;
+    color:var(--ink);
+    text-wrap:balance;
+  }
+  h1.title em{
+    font-style:italic;font-weight:400;
+    color:var(--terracotta);
+  }
+  h1.title .u{
+    background:linear-gradient(transparent 64%, oklch(0.88 0.09 90) 64% 92%, transparent 92%);
+    padding:0 2px;
+  }
+  .lede{
+    font-size:19px;max-width:60ch;color:var(--ink-soft);
+    margin:0 0 14px;
+  }
+  .lede strong{color:var(--ink);font-weight:500}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:18px 28px;
+    margin-top:34px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:12.5px;color:var(--ink-mute);
+    letter-spacing:.02em;
+  }
+  .meta-row b{color:var(--ink);font-weight:500}
+  .meta-row .pip{
+    display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--indigo);margin-right:8px;transform:translateY(-2px);
+  }
+
+  /* Hero right — preview card */
+  .preview{
+    border:1px solid var(--line);
+    background:var(--paper);
+    border-radius:18px;
+    padding:18px;
+    position:relative;
+    box-shadow:0 1px 0 oklch(1 0 0 / .6) inset, 0 30px 60px -40px oklch(0.22 0.025 250 / .25);
+  }
+  .preview .tab{
+    position:absolute;top:-12px;left:18px;
+    background:var(--ink);color:var(--paper);
+    font-family:"JetBrains Mono",monospace;font-size:11px;
+    letter-spacing:.08em;text-transform:uppercase;
+    padding:5px 10px;border-radius:8px;
+  }
+  .ph{
+    background:
+      repeating-linear-gradient(45deg,
+        oklch(0.92 0.02 80) 0 6px,
+        oklch(0.95 0.014 80) 6px 12px);
+    border:1px solid var(--line);
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-mute);
+    font-family:"JetBrains Mono",monospace;font-size:11px;
+    letter-spacing:.06em;text-transform:uppercase;
+    text-align:center;padding:8px;
+  }
+  .preview-grid{
+    display:grid;grid-template-columns:1.4fr 1fr;
+    grid-template-rows: 140px 88px;
+    gap:10px;
+  }
+  .preview-grid .a{grid-row:1/3}
+  .preview-foot{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);
+    font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-mute);
+  }
+  .preview-foot .k{color:var(--ink)}
+
+  /* Teasers section */
+  section.teasers{padding:72px 0 56px}
+  .sec-head{
+    display:flex;align-items:end;justify-content:space-between;
+    gap:24px;margin-bottom:36px;
+  }
+  .sec-title{
+    font-family:"Newsreader",serif;
+    font-weight:400;font-size:clamp(28px,3.4vw,40px);
+    letter-spacing:-.02em;margin:0;
+  }
+  .sec-title em{font-style:italic;color:var(--terracotta)}
+  .sec-sub{
+    font-family:"JetBrains Mono",monospace;font-size:12px;
+    letter-spacing:.06em;color:var(--ink-mute);text-transform:uppercase;
+  }
+
+  .cards{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  }
+  @media (max-width:900px){.cards{grid-template-columns:1fr}}
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:24px 22px 22px;
+    display:flex;flex-direction:column;gap:14px;
+    min-height:300px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card .num{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;color:var(--ink-mute);letter-spacing:.1em;
+  }
+  .card h3{
+    font-family:"Newsreader",serif;font-weight:400;
+    font-size:28px;line-height:1.05;letter-spacing:-.015em;
+    margin:0;color:var(--ink);
+  }
+  .card h3 em{font-style:italic;color:var(--terracotta)}
+  .card p{
+    margin:0;color:var(--ink-soft);font-size:15px;line-height:1.55;
+  }
+  .card .ph-strip{
+    height:120px;margin-top:auto;border-radius:10px;
+  }
+  .card .grade-row{
+    display:flex;gap:6px;margin-top:8px;
+    font-family:"JetBrains Mono",monospace;font-size:10.5px;
+    color:var(--ink-mute);letter-spacing:.06em;
+  }
+  .card .grade-row span{
+    border:1px solid var(--line);padding:3px 7px;border-radius:6px;
+    background:var(--bg);
+  }
+  .card .grade-row span.on{
+    background:var(--ink);color:var(--paper);border-color:var(--ink);
+  }
+
+  /* Highlights row */
+  .highlights{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    margin-top:8px;
+  }
+  @media (max-width:900px){.highlights{grid-template-columns:repeat(2,1fr)}}
+  .highlights > div{
+    padding:26px 22px;
+    border-right:1px solid var(--line);
+  }
+  .highlights > div:last-child{border-right:none}
+  @media (max-width:900px){
+    .highlights > div{border-bottom:1px solid var(--line)}
+    .highlights > div:nth-child(2){border-right:none}
+    .highlights > div:nth-last-child(-n+2){border-bottom:none}
+  }
+  .highlights .k{
+    font-family:"Newsreader",serif;font-weight:400;
+    font-size:38px;letter-spacing:-.02em;color:var(--ink);
+    line-height:1;
+  }
+  .highlights .k em{font-style:italic;color:var(--indigo)}
+  .highlights .v{
+    font-family:"JetBrains Mono",monospace;font-size:11px;
+    color:var(--ink-mute);letter-spacing:.08em;text-transform:uppercase;
+    margin-top:10px;
+  }
+
+  /* Notify */
+  section.notify{
+    padding:88px 0 96px;
+    display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;
+  }
+  @media (max-width:900px){section.notify{grid-template-columns:1fr;gap:40px;padding:64px 0 72px}}
+  .notify h2{
+    font-family:"Newsreader",serif;font-weight:400;
+    font-size:clamp(34px,4vw,52px);letter-spacing:-.02em;
+    margin:0 0 18px;line-height:1.04;
+  }
+  .notify h2 em{font-style:italic;color:var(--terracotta)}
+  .notify p{color:var(--ink-soft);max-width:48ch;margin:0}
+
+  form.signup{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:22px;
+    display:flex;flex-direction:column;gap:14px;
+  }
+  .field{
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .field label{
+    font-family:"JetBrains Mono",monospace;font-size:11px;
+    color:var(--ink-mute);letter-spacing:.08em;text-transform:uppercase;
+  }
+  .field input, .field select{
+    appearance:none;-webkit-appearance:none;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    font:inherit;
+    color:var(--ink);
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .field input:focus, .field select:focus{
+    outline:none;border-color:var(--ink);background:var(--paper);
+  }
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:520px){.row2{grid-template-columns:1fr}}
+  button.cta{
+    appearance:none;border:none;cursor:pointer;
+    background:var(--ink);color:var(--paper);
+    padding:14px 18px;border-radius:10px;
+    font:500 15px/1 "Geist",sans-serif;letter-spacing:.005em;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    transition:transform .12s ease, background .15s ease;
+  }
+  button.cta:hover{background:oklch(0.3 0.03 252)}
+  button.cta:active{transform:translateY(1px)}
+  button.cta .arrow{
+    font-family:"JetBrains Mono",monospace;font-size:13px;
+    color:oklch(0.78 0.05 80);
+  }
+  .form-note{
+    font-family:"JetBrains Mono",monospace;font-size:11px;
+    color:var(--ink-mute);letter-spacing:.04em;
+  }
+
+  /* Roadmap */
+  .roadmap{
+    border-top:1px solid var(--line);padding:46px 0 24px;
+  }
+  .road-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    margin-top:24px;
+  }
+  @media (max-width:900px){.road-grid{grid-template-columns:1fr 1fr}}
+  .road-grid > div{
+    padding:18px 18px 18px 0;border-top:2px solid var(--ink);
+    margin-right:18px;position:relative;
+  }
+  .road-grid > div:last-child{margin-right:0}
+  .road-grid > div.done{border-top-color:var(--terracotta)}
+  .road-grid > div.now{border-top-color:var(--indigo)}
+  .road-grid .stamp{
+    font-family:"JetBrains Mono",monospace;font-size:11px;
+    color:var(--ink-mute);letter-spacing:.08em;text-transform:uppercase;
+  }
+  .road-grid h4{
+    font-family:"Newsreader",serif;font-weight:400;
+    font-size:22px;margin:8px 0 6px;letter-spacing:-.01em;
+  }
+  .road-grid p{margin:0;color:var(--ink-soft);font-size:14px}
+  .road-grid .tag{
+    position:absolute;top:-11px;left:0;
+    font-family:"JetBrains Mono",monospace;font-size:10px;
+    background:var(--bg);padding:0 8px;color:var(--ink-mute);
+    letter-spacing:.08em;text-transform:uppercase;
+  }
+  .road-grid .done .tag{color:var(--terracotta)}
+  .road-grid .now .tag{color:var(--indigo)}
+
+  /* Footer */
+  footer{
+    margin-top:56px;padding:28px 0 36px;
+    border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;gap:20px;
+    font-family:"JetBrains Mono",monospace;font-size:11.5px;
+    color:var(--ink-mute);letter-spacing:.04em;
+  }
+  footer a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line)}
+  footer a:hover{color:var(--ink)}
+  @media (max-width:600px){footer{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="strip" role="status" aria-label="Site status">
+    <span class="dot" aria-hidden="true"></span>
+    <span>SITE STATUS — UNDER CONSTRUCTION · BUILDING IN PUBLIC</span>
+    <span class="sep"></span>
+    <span class="right">EST. LAUNCH · FALL 2026</span>
+  </div>
+
+  <nav class="top">
+    <div class="mark">
+      <span class="logo">P</span>
+      <span class="name">proj<em>K12</em>.org</span>
+    </div>
+    <div class="nav-right">v0.1 · PRE-LAUNCH</div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <span class="eyebrow"><span class="bar"></span>Coming Soon · K–12 Project Library</span>
+      <h1 class="title">
+        Kids don't learn from <em>lectures</em>.<br />
+        They learn from <span class="u">building things</span> that matter.
+      </h1>
+      <p class="lede">
+        <strong>ProjK12</strong> is a growing library of hands-on projects for K–12 students —
+        designed so that every concept is taught through making something real.
+        Circuits, stories, rockets, recipes, robots, research. We're putting the
+        finishing touches on the first hundred.
+      </p>
+      <div class="meta-row">
+        <span><span class="pip"></span><b>100+</b> projects in pilot</span>
+        <span><span class="pip"></span><b>K–12</b> grade coverage</span>
+        <span><span class="pip"></span><b>STEM + Humanities</b></span>
+        <span><span class="pip"></span><b>Free</b> for educators</span>
+      </div>
+    </div>
+
+    <aside class="preview" aria-label="Preview of upcoming site">
+      <span class="tab">Preview · Project Card</span>
+      <div class="preview-grid">
+        <div class="ph a">[ project hero image ]</div>
+        <div class="ph">[ student work ]</div>
+        <div class="ph">[ teacher guide ]</div>
+      </div>
+      <div class="preview-foot">
+        <span><span class="k">Build:</span> Hydroponic Window Garden</span>
+        <span>GR 4–6 · 3 WKS</span>
+      </div>
+    </aside>
+  </header>
+
+  <section class="teasers">
+    <div class="sec-head">
+      <h2 class="sec-title">A peek at what's <em>coming</em></h2>
+      <span class="sec-sub">Three sneak peeks · 01 / 02 / 03</span>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <span class="num">01 — LIBRARY</span>
+        <h3>A <em>library</em> of projects, not a stack of worksheets.</h3>
+        <p>
+          Browse projects by grade, subject, time, and materials on hand.
+          Every project ships with a student guide, a teacher guide,
+          and rubrics you can actually use Monday morning.
+        </p>
+        <div class="ph ph-strip">[ catalog grid mock ]</div>
+        <div class="grade-row">
+          <span class="on">K–2</span><span class="on">3–5</span><span class="on">6–8</span><span class="on">9–12</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="num">02 — STUDIO</span>
+        <h3>Students keep a real <em>portfolio</em> of what they made.</h3>
+        <p>
+          Photos, sketches, video, written reflections — collected per
+          project, per student, per year. A K–12 record of work, not a
+          transcript of grades.
+        </p>
+        <div class="ph ph-strip">[ portfolio timeline ]</div>
+        <div class="grade-row">
+          <span>journal</span><span>photos</span><span>video</span><span>reflection</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="num">03 — CLASSROOM</span>
+        <h3>Tools for teachers to <em>run</em> a project-based week.</h3>
+        <p>
+          Pacing guides, materials checklists, group-formation helpers,
+          family-letter templates, and standards alignment. Designed
+          with classroom teachers, piloted in real schools.
+        </p>
+        <div class="ph ph-strip">[ teacher dashboard ]</div>
+        <div class="grade-row">
+          <span>pacing</span><span>standards</span><span>materials</span><span>rubrics</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="highlights" aria-label="At a glance">
+    <div>
+      <div class="k"><em>100+</em></div>
+      <div class="v">projects at launch</div>
+    </div>
+    <div>
+      <div class="k">K–<em>12</em></div>
+      <div class="v">every grade band</div>
+    </div>
+    <div>
+      <div class="k"><em>6</em> subjects</div>
+      <div class="v">STEM · arts · humanities</div>
+    </div>
+    <div>
+      <div class="k">$<em>0</em></div>
+      <div class="v">free for public educators</div>
+    </div>
+  </section>
+
+  <section class="notify">
+    <div>
+      <h2>Get the <em>first invite</em> when we open the doors.</h2>
+      <p>
+        We're piloting with a handful of schools this fall. If you're a
+        teacher, parent, or curriculum lead, drop your details — we'll
+        send a single email when ProjK12 opens, and an occasional note
+        about projects we think you'd love.
+      </p>
+    </div>
+
+    <form class="signup" onsubmit="event.preventDefault(); this.querySelector('.form-note').textContent='✓ THANKS — WE\\'LL BE IN TOUCH SOON.'">
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" placeholder="Ada Lovelace" required />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@school.org" required />
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="role">I am a…</label>
+          <select id="role" name="role">
+            <option>Teacher</option>
+            <option>School / district leader</option>
+            <option>Parent</option>
+            <option>Student</option>
+            <option>Curious bystander</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="grade">Grade band</label>
+          <select id="grade" name="grade">
+            <option>K–2</option>
+            <option>3–5</option>
+            <option>6–8</option>
+            <option>9–12</option>
+            <option>All of the above</option>
+          </select>
+        </div>
+      </div>
+      <button class="cta" type="submit">
+        <span>Notify me at launch</span>
+        <span class="arrow">→</span>
+      </button>
+      <div class="form-note">NO SPAM · ONE LAUNCH EMAIL · UNSUBSCRIBE ANYTIME</div>
+    </form>
+  </section>
+
+  <section class="roadmap">
+    <div class="sec-head">
+      <h2 class="sec-title">Where we <em>are</em></h2>
+      <span class="sec-sub">Roadmap · 2025 → 2026</span>
+    </div>
+    <div class="road-grid">
+      <div class="done">
+        <span class="tag">Done</span>
+        <div class="stamp">Q3 · 2025</div>
+        <h4>Curriculum framework</h4>
+        <p>Project model, grade-band scaffolds, and rubric design locked in.</p>
+      </div>
+      <div class="done">
+        <span class="tag">Done</span>
+        <div class="stamp">Q4 · 2025</div>
+        <h4>First 40 projects</h4>
+        <p>Authored with classroom teachers across four pilot schools.</p>
+      </div>
+      <div class="now">
+        <span class="tag">In progress</span>
+        <div class="stamp">Q2 · 2026</div>
+        <h4>Site &amp; portfolio tools</h4>
+        <p>The thing you're waiting on. Build, browse, save, share.</p>
+      </div>
+      <div>
+        <span class="tag">Next</span>
+        <div class="stamp">Fall · 2026</div>
+        <h4>Public launch</h4>
+        <p>100+ projects live. Free for public educators. Invite-only beta first.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 2026 PROJK12 · BUILT WITH STUDENTS &amp; TEACHERS</div>
+    <div>
+      <a href="mailto:hello@projk12.org">hello@projk12.org</a>
+      &nbsp;·&nbsp;
+      <a href="#">@projk12</a>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

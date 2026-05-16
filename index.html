@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ProjK12 — Coming Soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,400..600&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg: oklch(0.925 0.055 155);          /* soft pistachio mint */
+    --ink: oklch(0.20 0.035 255);          /* deep navy ink */
+    --ink-soft: oklch(0.42 0.03 255);
+    --ink-mute: oklch(0.55 0.025 255);
+    --line: oklch(0.80 0.04 155);
+    --accent: oklch(0.48 0.18 262);        /* cobalt blue — main accent */
+    --berry: oklch(0.58 0.21 355);         /* raspberry */
+    --sun: oklch(0.86 0.15 95);            /* butter yellow */
+    --paper: oklch(0.985 0.012 150);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Geist","Helvetica Neue",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+    min-height:100vh;
+    display:flex;flex-direction:column;
+  }
+
+  /* Subtle dot grid background */
+  body::before{
+    content:"";position:fixed;inset:0;
+    background-image: radial-gradient(oklch(0.78 0.05 155) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-position: -1px -1px;
+    opacity:.5;
+    pointer-events:none;
+  }
+
+  .frame{
+    flex:1;
+    display:grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 26px clamp(24px, 4vw, 56px);
+    position:relative;
+    z-index:1;
+    min-height:100vh;
+  }
+
+  /* Top row */
+  header.top{
+    display:flex;align-items:center;justify-content:space-between;gap:18px;
+  }
+  .mark{
+    font-family:"Newsreader",serif;
+    font-weight:500;font-size:20px;letter-spacing:-.01em;
+  }
+  .mark em{font-style:italic;color:var(--accent);font-weight:400}
+  .pill{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-soft);
+    padding:7px 14px;border:1px solid var(--line);border-radius:999px;
+    background:var(--paper);
+  }
+  .pill .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--berry);
+    box-shadow:0 0 0 0 oklch(0.58 0.21 355 / .5);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 oklch(0.58 0.21 355 / .45)}
+    50%{box-shadow:0 0 0 8px oklch(0.58 0.21 355 / 0)}
+  }
+
+  /* Stage — center composition */
+  main.stage{
+    display:grid;
+    place-items:center;
+    position:relative;
+    padding: 12px 0;
+  }
+
+  .center{
+    display:flex;flex-direction:column;align-items:center;
+    gap:34px;text-align:center;
+    max-width:840px;width:100%;
+  }
+
+  /* Shapes cluster */
+  .shapes{
+    position:relative;
+    width:min(520px, 70vw);
+    height:160px;
+    display:flex;align-items:flex-end;justify-content:center;gap:22px;
+  }
+  .shape{
+    position:relative;
+    transform-origin:center bottom;
+    animation: float 6s ease-in-out infinite;
+  }
+  .shape.s1{animation-delay: -0.2s}
+  .shape.s2{animation-delay: -1.4s}
+  .shape.s3{animation-delay: -2.6s}
+  .shape.s4{animation-delay: -3.8s}
+  .shape.s5{animation-delay: -5.0s}
+  @keyframes float{
+    0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}
+    50%{transform:translateY(-8px) rotate(var(--rot,0deg))}
+  }
+
+  /* square */
+  .sq{
+    width:90px;height:90px;
+    background:var(--berry);
+    border-radius:6px;
+    --rot:-3deg;
+  }
+  /* circle */
+  .ci{
+    width:110px;height:110px;border-radius:50%;
+    background:var(--paper);
+    border:8px solid var(--ink);
+  }
+  /* triangle (CSS) */
+  .tri{
+    width:0;height:0;
+    border-left:62px solid transparent;
+    border-right:62px solid transparent;
+    border-bottom:108px solid var(--accent);
+    --rot:4deg;
+  }
+  /* diamond */
+  .di{
+    width:78px;height:78px;
+    background:var(--sun);
+    transform:rotate(45deg);
+    --rot:45deg;
+    margin-bottom:18px;
+    border-radius:4px;
+  }
+  /* arch / half-circle */
+  .ar{
+    width:110px;height:55px;
+    background:var(--ink);
+    border-radius:110px 110px 0 0;
+  }
+
+  /* Wordmark */
+  .display{
+    font-family:"Newsreader",serif;
+    font-weight:400;
+    font-size:clamp(64px, 11vw, 168px);
+    line-height:.92;
+    letter-spacing:-.035em;
+    margin:0;
+    text-wrap:balance;
+  }
+  .display em{
+    font-style:italic;
+    color:var(--accent);
+    font-weight:400;
+  }
+  .display .num{
+    font-style:italic;
+    background:linear-gradient(transparent 62%, var(--sun) 62% 94%, transparent 94%);
+    padding:0 .04em;
+  }
+
+  .tagline{
+    font-size:clamp(16px, 1.4vw, 19px);
+    color:var(--ink-soft);
+    margin:0;
+    max-width:46ch;
+    line-height:1.5;
+  }
+  .tagline b{color:var(--ink);font-weight:500}
+
+  /* CTA */
+  form.notify{
+    display:flex;align-items:center;gap:8px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:6px 6px 6px 18px;
+    width:min(440px, 92vw);
+    box-shadow:0 1px 0 oklch(1 0 0 / .8) inset,
+               0 20px 50px -36px oklch(0.22 0.025 250 / .35);
+  }
+  form.notify input{
+    flex:1;border:none;background:transparent;
+    font:inherit;font-size:15px;color:var(--ink);
+    padding:10px 4px;
+    outline:none;
+  }
+  form.notify input::placeholder{color:var(--ink-mute)}
+  form.notify button{
+    appearance:none;border:none;cursor:pointer;
+    background:var(--ink);color:var(--paper);
+    font:500 14px/1 "Geist",sans-serif;
+    padding:11px 18px;border-radius:999px;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:background .15s ease, transform .12s ease;
+  }
+  form.notify button:hover{background:oklch(0.30 0.03 252)}
+  form.notify button:active{transform:translateY(1px)}
+  form.notify button .arr{
+    font-family:"JetBrains Mono",monospace;
+    color:oklch(0.82 0.04 155);
+  }
+  .ok{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-mute);
+    margin-top:-18px;
+    min-height:14px;
+  }
+
+  /* Bottom */
+  footer.foot{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:18px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;color:var(--ink-mute);
+    letter-spacing:.08em;text-transform:uppercase;
+  }
+  footer.foot a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line)}
+  footer.foot a:hover{color:var(--ink)}
+
+  @media (max-width: 720px){
+    body{overflow:auto}
+    .shapes{height:120px;gap:14px}
+    .sq{width:64px;height:64px}
+    .ci{width:78px;height:78px;border-width:6px}
+    .tri{border-left-width:44px;border-right-width:44px;border-bottom-width:76px}
+    .di{width:54px;height:54px;margin-bottom:14px}
+    .ar{width:78px;height:39px}
+    .center{gap:26px}
+    footer.foot{flex-direction:column;align-items:flex-start;gap:8px}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <header class="top">
+    <div class="mark">proj<em>K12</em>.org</div>
+    <div class="pill">
+      <span class="dot" aria-hidden="true"></span>
+      Under construction · Coming soon
+    </div>
+  </header>
+
+  <main class="stage">
+    <div class="center">
+
+      <div class="shapes" aria-hidden="true">
+        <div class="shape s1"><div class="sq"></div></div>
+        <div class="shape s2"><div class="tri"></div></div>
+        <div class="shape s3"><div class="ci"></div></div>
+        <div class="shape s4"><div class="di"></div></div>
+        <div class="shape s5"><div class="ar"></div></div>
+      </div>
+
+      <h1 class="display">
+        Learn by <em>building</em>.
+      </h1>
+
+      <p class="tagline">
+        <b>ProjK12</b> — project-based learning for K–12 students. Launching soon.
+      </p>
+
+      <form class="notify" onsubmit="event.preventDefault(); this.querySelector('input').value=''; document.getElementById('ok').textContent='✓ You\u2019re on the list.'">
+        <input type="email" required placeholder="you@school.org" aria-label="Email address" />
+        <button type="submit"><span>Notify me</span><span class="arr">→</span></button>
+      </form>
+      <div class="ok" id="ok"></div>
+
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div>© 2026 ProjK12</div>
+    <div><a href="mailto:hello@projk12.org">hello@projk12.org</a></div>
+  </footer>
+
+</div>
+</body>
+</html>
