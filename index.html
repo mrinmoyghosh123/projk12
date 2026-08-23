@@ -4,6 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ProjK12 — Coming Soon</title>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,400..600&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -56,10 +58,12 @@
     display:flex;align-items:center;justify-content:space-between;gap:18px;
   }
   .mark{
-    font-family:"Newsreader",serif;
-    font-weight:500;font-size:20px;letter-spacing:-.01em;
+    display:flex;align-items:center;gap:10px;
+    text-decoration:none;color:inherit;
   }
-  .mark em{font-style:italic;color:var(--accent);font-weight:400}
+  .mark img{display:block;width:auto}
+  .mark .owl{height:48px}
+  .mark .word{height:24px}
   .pill{
     display:inline-flex;align-items:center;gap:10px;
     font-family:"JetBrains Mono",monospace;
@@ -242,6 +246,8 @@
     .di{width:54px;height:54px;margin-bottom:14px}
     .ar{width:78px;height:39px}
     .center{gap:26px}
+    .mark .owl{height:40px}
+    .mark .word{height:20px}
     footer.foot{flex-direction:column;align-items:flex-start;gap:8px}
   }
 </style>
@@ -250,7 +256,10 @@
 <div class="frame">
 
   <header class="top">
-    <div class="mark">proj<em>K12</em>.org</div>
+    <a class="mark" href="/" aria-label="ProjK12">
+      <img class="owl" src="assets/projk12-mark.png" alt="" width="259" height="176" />
+      <img class="word" src="assets/projk12-wordmark.png" alt="ProjK12" width="369" height="96" />
+    </a>
     <div class="pill">
       <span class="dot" aria-hidden="true"></span>
       Under construction · Coming soon
